@@ -3,7 +3,7 @@ import express from "express";
 
 const app = express();
 const port = 4000;
-app.use(express.json());
+app.use(express.json({ limit: "50mb" }));
 
 app.listen(port, () => {
 	console.log(new Date() + " backend runnin on port " + port);
@@ -54,7 +54,7 @@ app.post("/", async (req, res) => {
 	if (!imageBase64) {
 		return res.status(400).json({ msg: "No file provided in the request." });
 	}
-
+	console.log(123);
 	try {
 		const data = await InvoiceDetail(imageBase64);
 		res.json({ msg: "SUCCESS", data });
