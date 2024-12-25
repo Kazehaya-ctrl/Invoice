@@ -1,0 +1,18 @@
+{
+	"name": "invoice",
+	"type": "module",
+	"version": "1.0.0",
+	"main": "index.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"description": "",
+	"dependencies": {
+		"@google/generative-ai": "^0.21.0",
+		"@prisma/client": "^6.1.0",
+		"prisma": "^6.1.0"
+	}
+}
