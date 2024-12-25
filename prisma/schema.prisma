@@ -22,8 +22,8 @@ model Invoice {
   customerName    String
   customerId      String
   customerAddress String
-  invoiceDate     DateTime
-  dueDate         DateTime
+  invoiceDate     String
+  dueDate         String
   creditDays      Int
   pos             String
   productDetails  Json     

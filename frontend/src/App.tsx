@@ -14,7 +14,8 @@ function App() {
 		const reader = new FileReader();
 		reader.onloadend = async () => {
 			const base64String = reader.result as string;
-			console.log({ base: base64String });
+			const realBase64 = base64String.split(",")[1];
+			console.log({ base: realBase64 });
 
 			try {
 				const response = await fetch("http://localhost:4000", {
@@ -22,7 +23,7 @@ function App() {
 					headers: {
 						"Content-Type": "application/json",
 					},
-					body: JSON.stringify({ file: base64String }),
+					body: JSON.stringify({ file: realBase64 }),
 				});
 
 				if (response.ok) {
