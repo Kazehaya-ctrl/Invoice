@@ -35,7 +35,7 @@ const prompt = `Hey this is my prisma model Invoice
   discount        Float
   invoiceAmount   Float
   remarks         String?
- can you just give me the output from the imgae so that i can directly feed it to database according if not found just live it empty`;
+ can you just give me the output from the image that i give to you so that i can directly feed it to database according if not found just live it empty`;
 
 async function InvoiceDetail(image) {
 	try {
@@ -54,29 +54,56 @@ app.get("/test", (req, res) => {
 });
 
 app.post("/", async (req, res) => {
-	const imageBase64 = req.body.file;
+	const typeofInput = req.body.type;
+	const base64 = req.body.file;
 
-	if (!imageBase64) {
-		return res.status(400).json({ msg: "No file provided in the request." });
+	function inputPrompt(base64) {
+		if (typeofInput === "image") {
+			const imageBase64 = req.body.file;
+			if (!imageBase64) {
+				return res
+					.status(400)
+					.json({ msg: "No file provided in the request." });
+			}
+			const image = {
+				inlineData: {
+					data: base64,
+					mimeType: "image/jpg",
+				},
+			};
+			return image;
+		} else if (typeofInput === "pdf") {
+			const pdfBase64 = req.body.file;
+			if (!pdfBase64) {
+				return res
+					.status(400)
+					.json({ msg: "No file provided in the request." });
+			}
+			const image = {
+				inlineData: {
+					data: base64,
+					mimeType: "application/pdf",
+				},
+			};
+			return image;
+		} else {
+			return res.status(411).json({ msg: "File Input is not Needed" });
+		}
 	}
 
-	const image = {
-		inlineData: {
-			data: imageBase64,
-			mimeType: "image/jpg",
-		},
-	};
-
-	console.log(image);
+	const imagePrompt = inputPrompt(base64);
 
 	console.log(123);
 	try {
-		const data = await InvoiceDetail(image);
+		console.log(imagePrompt);
+		const data = await InvoiceDetail(imagePrompt);
 		if (data) {
 			const match = data.match(/\{[\s\S]*\}/);
 			if (match) {
 				const jsonString = match[0];
+				console.log(jsonString);
 				const jsonObject = JSON.parse(jsonString);
+				console.log(jsonObject);
 				const dbData = await prisma.invoice.create({
 					data: jsonObject,
 				});
