@@ -14,7 +14,7 @@ app.listen(port, () => {
 	console.log(new Date() + " backend runnin on port " + port);
 });
 
-const genAI = new GoogleGenerativeAI("AIzaSyBeKYDLpQUWMvvheTHpFyzxgkDDnvj1wBw");
+const genAI = new GoogleGenerativeAI("");
 const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
 const prompt = `Hey this is my prisma model Invoice
@@ -35,7 +35,7 @@ const prompt = `Hey this is my prisma model Invoice
   discount        Float
   invoiceAmount   Float
   remarks         String?
- can you just give me the output from the image that i give to you so that i can directly feed it to database according if not found just live it empty`;
+ can you just give me the output from the image that i give to you so that i can directly feed it to database according if data not found for specific coloum just make it empty of that data type string should be "" number can be 0 leave no non-whitespaces`;
 
 async function InvoiceDetail(image) {
 	try {
